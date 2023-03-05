@@ -1,0 +1,69 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+ .ba-admin-page-wrap {
+    margin: 5px 15px;
+ }
+
+.ba-admin-row {
+    display: flex;
+}
+
+.ba-admin-col:first-of-type {
+    width: 30%;
+}
+
+.ba-admin-form .helper {
+    margin-top: 5px;
+}
+
+.ba-admin-form button {
+    appearance: none;
+    border: none;
+    margin-top: 1em;
+    cursor: pointer;
+    background-color: #2271b1;
+    color: #fff;
+    min-height: 32px;
+    padding: 0 12px;
+    line-height: 2.30769231;
+    border-radius: 3px;
+    transition: background-color .2s ease;
+}
+
+.ba-admin-form button:hover {
+    background-color: #135e96;
+}
+
+.ba-admin-sortable {
+    margin: 0;
+}
+
+.ba-admin-sortable li {
+    list-style: none;
+    padding: .75em 1.25em;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    cursor: move;
+    margin-bottom: 0;
+    min-width: 300px;
+    transition: background-color .2s ease;
+}
+
+.ba-admin-sortable li.sortable-chosen {
+    background-color: #C8EBFB;
+}
+
+.ba-admin-checkbox-wrap {
+    margin-bottom: .5em;
+}
+
+.ba-admin-checkbox-wrap.child {
+    margin-left: 1.8em;
+}
+
+.ba-admin-checkbox-wrap.grand-child {
+    margin-left: 3.6em;
+}
