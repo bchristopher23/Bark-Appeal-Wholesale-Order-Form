@@ -63,6 +63,15 @@
     padding: 10px 105px;
 }
 
+.ba-sub-cat-heading {
+    font-weight: bold !important;
+    margin-top: 2em;
+}
+
+.ba-sub-cat-heading:first-of-type {
+    margin-top: 0;
+}
+
 .ba-product-headings {
     display: flex;
     align-items: center;

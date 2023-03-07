@@ -15,11 +15,11 @@
     $empty        = 0;
 
     $args = array(
-            'taxonomy'     => $taxonomy,
-            'orderby'      => $orderby,
-            'hierarchical' => $hierarchical,
-            'hide_empty'   => $empty,
-            'parent'       => 0
+        'taxonomy'     => $taxonomy,
+        'orderby'      => $orderby,
+        'hierarchical' => $hierarchical,
+        'hide_empty'   => $empty,
+        'parent'       => 0,
     );
     $categories = get_categories( $args );
     
@@ -43,7 +43,7 @@
                     <?php foreach($categories as $category): ?>
                         <div class="ba-admin-checkbox-wrap">
                             <input type="checkbox" id="<?php echo $category->term_id; ?>" name="<?php echo $category->term_id; ?>" 
-                            value="<?php echo $category->name; ?>" <?php echo array_key_exists($category->name, $selected_categories) ? 'checked' : ''; ?>>
+                            value="<?php echo $category->name; ?>" <?php echo in_array($category->term_id, $selected_categories) ? 'checked' : ''; ?>>
                             <label for="<?php echo $category->term_id; ?>"><?php echo $category->name; ?></label>
                         </div>
 
@@ -53,7 +53,7 @@
                             'taxonomy' => 'product_cat',
                             'parent' => $category->term_id,
                             'empty' => 0,
-                            'hierarchical' => 1
+                            'hierarchical' => 1,
                         );
 
                         $children = get_categories( $args );
@@ -61,7 +61,7 @@
                         foreach ($children as $child): ?>
                             <div class="ba-admin-checkbox-wrap child">
                                 <input type="checkbox" id="<?php echo $child->term_id; ?>" name="<?php echo $child->term_id; ?>" 
-                                value="<?php echo $child->name; ?>" <?php echo array_key_exists($child->name, $selected_categories) ? 'checked' : ''; ?>>
+                                value="<?php echo $child->name; ?>" <?php echo in_array($child->term_id, $selected_categories) ? 'checked' : ''; ?>>
                                 <label for="<?php echo $child->term_id; ?>"><?php echo $child->name; ?></label>
                             </div>
 
@@ -71,7 +71,7 @@
                                 'taxonomy' => 'product_cat',
                                 'parent' => $child->term_id,
                                 'empty' => 0,
-                                'hierarchical' => 1
+                                'hierarchical' => 1,
                             );
 
                             $grand_children = get_categories( $args );
@@ -79,7 +79,7 @@
                             foreach ($grand_children as $grand_child): ?>
                                 <div class="ba-admin-checkbox-wrap grand-child">
                                     <input type="checkbox" id="<?php echo $grand_child->term_id; ?>" name="<?php echo $grand_child->term_id; ?>" 
-                                    value="<?php echo $grand_child->name; ?>" <?php echo array_key_exists($grand_child->name, $selected_categories) ? 'checked' : ''; ?>>
+                                    value="<?php echo $grand_child->name; ?>" <?php echo in_array($grand_child->term_id, $selected_categories) ? 'checked' : ''; ?>>
                                     <label for="<?php echo $grand_child->term_id; ?>"><?php echo $grand_child->name; ?></label>
                                 </div>
                             <?php endforeach; ?>

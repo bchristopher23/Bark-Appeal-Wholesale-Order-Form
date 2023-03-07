@@ -14,7 +14,7 @@ class Custom_Template_Loader extends Gamajo_Template_Loader {
 	 * @since 1.0.0
 	 * @type string
 	 */
-	protected $filter_prefix = '';
+	protected $filter_prefix = 'ba';
 
 	/**
 	 * Directory name where custom templates for this plugin should be found in the theme.
