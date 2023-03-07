@@ -32,7 +32,7 @@
 
     ?>
 
-    <form class="ba-admin-form" method="POST" action="<?php echo admin_url( 'admin.php' ); ?>">
+    <form class="ba-admin-form ba-category-order-form" method="POST" action="<?php echo admin_url( 'admin.php' ); ?>">
         <div class="ba-admin-row">
 
             <div class="ba-admin-col">

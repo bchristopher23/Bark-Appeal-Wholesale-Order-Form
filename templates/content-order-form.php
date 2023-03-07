@@ -61,7 +61,20 @@ if ($is_wholesale):
         $args = array(
             'post_type'      => 'product',
             'posts_per_page' => -1,
-            'product_cat'    => $category->slug
+            'product_cat'    => $category->slug,
+            'meta_query' => array(
+                'relation' => 'OR',
+                array(
+                   'key'=>'ba_order',
+                   'compare' => 'EXISTS'         
+                ),
+                array(
+                    'key'=>'ba_order',
+                    'compare' => 'NOT EXISTS'         
+                )
+            ),
+            'order'          => 'ASC',
+            'orderby'        => 'meta_value_num',
         );
         $products = get_posts( $args );
 

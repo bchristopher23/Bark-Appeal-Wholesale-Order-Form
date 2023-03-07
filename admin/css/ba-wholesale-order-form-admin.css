@@ -67,3 +67,24 @@
 .ba-admin-checkbox-wrap.grand-child {
     margin-left: 3.6em;
 }
+
+/* Products Order Page */
+.ba-admin-sortable-wrap {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    max-width: 500px;
+}
+
+.ba-admin-sortable-wrap svg {
+    display: none;
+}
+
+.ba-product-order-form button[type="submit"] {
+    display: none;
+}
+
+.ba-admin-error {
+    display: none;
+    color: red;
+    font-weight: bold;
+}

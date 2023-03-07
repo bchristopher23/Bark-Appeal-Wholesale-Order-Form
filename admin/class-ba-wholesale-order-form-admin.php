@@ -98,6 +98,7 @@ class Ba_Wholesale_Order_Form_Admin {
 
 		wp_enqueue_script( 'sortable', plugin_dir_url( __FILE__ ) . 'js/sortable.min.js', array(), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ba-wholesale-order-form-admin.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, 'ajax_params', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
 	}
 
@@ -108,6 +109,14 @@ class Ba_Wholesale_Order_Form_Admin {
 	 */
 	public function ba_admin_menu() {
 		add_menu_page( 'Wholesale Order Form Settings', 'Wholesale Order Form', 'manage_options', 'ba-wholesale-order-form-admin-page.php', array($this, 'ba_render_admin_page' ), 'dashicons-cart', 56 );
+		add_submenu_page(
+			'ba-wholesale-order-form-admin-page.php',
+			'Products Order', //page title
+			'Products Order', //menu title
+			'manage_options', //capability,
+			'ba-wholesale-order-form-products-admin-page.php',//menu slug
+			array($this, 'ba_render_admin_product_page' ) //callback function
+		);
 	}
 
 	/**
@@ -130,6 +139,71 @@ class Ba_Wholesale_Order_Form_Admin {
 
 		wp_redirect( admin_url( 'admin.php' ) . '?page=ba-wholesale-order-form-admin-page.php&success=yes');
 		exit;
+
+	}
+
+	public function ba_render_admin_product_page() {
+
+		$templates = new Custom_Template_Loader;
+
+		$templates->get_template_part( 'admin/content', 'products-order-page' );
+
+	}
+
+	public function ba_save_product_order() {
+
+		$ordered_products = isset( $_POST['product_ids'] ) ? $_POST['product_ids'] : '';
+		$ordered_products = json_decode( str_replace('\\', '', $ordered_products), true);
+
+		$count = 1;
+
+		foreach( $ordered_products as $product ) {
+
+			update_post_meta( intval($product), 'ba_order', $count );
+			$count++;
+
+		}
+
+
+		wp_redirect( admin_url( 'admin.php' ) . '?page=ba-wholesale-order-form-products-admin-page.php&success=yes');
+		exit;
+
+	}
+
+	function ba_get_products_by_category() {
+
+		$data = isset( $_POST['data'] ) ? json_decode( str_replace('\\', '', $_POST['data'] ), true ) : '';
+		$category_id = intval( $data['category_id'] );
+
+		// Category products
+		$args = array(
+			'post_type'      => 'product',
+			'posts_per_page' => -1,
+			'tax_query'             => array(
+				array(
+					'taxonomy' => 'product_cat',
+					'field' => 'term_id',
+					'terms' => $category_id,
+					'operator' => 'IN'
+				),
+			),
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key'=>'ba_order',
+					'compare' => 'EXISTS'         
+				),
+				array(
+					'key'=>'ba_order',
+					'compare' => 'NOT EXISTS'         
+				)
+			),
+			'order'          => 'ASC',
+			'orderby'        => 'meta_value_num',
+		);
+		$products = get_posts( $args );
+
+        wp_send_json( json_encode($products) );
 
 	}
 

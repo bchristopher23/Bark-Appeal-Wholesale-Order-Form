@@ -169,10 +169,15 @@ class Ba_Wholesale_Order_Form {
 
 		// Save/Update our plugin options
 		$this->loader->add_action( 'admin_action_ba_save_settings', $plugin_admin, 'ba_save_settings' );
+		$this->loader->add_action( 'admin_action_ba_save_product_order', $plugin_admin, 'ba_save_product_order' );
 
 		// Add menu item
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ba_admin_menu' );
 	
+		// Get producs by category AJAX
+		$this->loader->add_action('wp_ajax_get_products_by_category', $plugin_admin, 'ba_get_products_by_category');
+		$this->loader->add_action('wp_ajax_nopriv_get_products_by_category', $plugin_admin, 'ba_get_products_by_category');
+
 	}
 
 	/**
