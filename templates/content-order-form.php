@@ -96,7 +96,7 @@ if ($is_wholesale):
                         'taxonomy'     => $taxonomy,
                         'orderby'      => 'ID',
                         'hierarchical' => $hierarchical,
-                        'hide_empty'   => $empty,
+                        'hide_empty'   => true,
                         'parent' => $category->term_id
                     );
 
@@ -121,7 +121,7 @@ if ($is_wholesale):
                 <?php else:
 
                 // Not Starter Packs, get products
-                
+
                 // Category products
                 $products = get_posts( $cat_args );
 
