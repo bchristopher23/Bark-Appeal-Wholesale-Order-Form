@@ -202,6 +202,10 @@ class Ba_Wholesale_Order_Form {
 		$this->loader->add_action('wp_ajax_add_to_cart', $plugin_public, 'ba_add_to_cart');
 		$this->loader->add_action('wp_ajax_nopriv_add_to_cart', $plugin_public, 'ba_add_to_cart');
 
+		// Get products by category AJAX
+		$this->loader->add_action('wp_ajax_get_products_html_by_category', $plugin_public, 'ba_get_products_by_category');
+		$this->loader->add_action('wp_ajax_nopriv_get_products_html_by_category', $plugin_public, 'ba_get_products_by_category');
+
 		/**
 		 * Register shortcode via loader
 		 *

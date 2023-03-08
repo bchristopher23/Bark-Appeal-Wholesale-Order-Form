@@ -76,7 +76,7 @@ if ($is_wholesale):
         );
 
     ?>
-        <div class="ba-category-row">
+        <div class="ba-category-row" data-id="<?php echo $category->term_id; ?>" data-name="<?php echo $category->name; ?>">
 
             <div class="ba-category-row-heading">
                 <img src="<?php echo $image; ?>" />
@@ -88,51 +88,18 @@ if ($is_wholesale):
             </div>
 
             <div class="ba-category-row-content">
-                
-                <!-- If Starter Packs, display sub categories with products -->
-                <?php if ( $category->name === 'Starter Packs' ):
-
-                    $args = array(
-                        'taxonomy'     => $taxonomy,
-                        'orderby'      => 'ID',
-                        'hierarchical' => $hierarchical,
-                        'hide_empty'   => true,
-                        'parent' => $category->term_id
-                    );
-
-                    $sub_cats = get_categories( $args );
-
-                    foreach( $sub_cats as $cat ): ?>
-
-                    <h3 class="ba-sub-cat-heading"><?php echo $cat->name; ?></h3>
-
-                    <?php
-                    $cat_args['product_cat'] = $cat->slug;
-                    $products = get_posts( $cat_args );
-
-                    $templates = new Custom_Template_Loader;
-
-                    $templates
-                    ->set_template_data( array('products' => $products) )
-                    ->get_template_part( 'content', 'product-loop' );
-
-                    endforeach; ?>
-
-                <?php else:
-
-                // Not Starter Packs, get products
-
-                // Category products
-                $products = get_posts( $cat_args );
-
-                $templates = new Custom_Template_Loader;
-
-                $templates
-                ->set_template_data( array('products' => $products) )
-                ->get_template_part( 'content', 'product-loop' );
-
-                endif; ?>
-
+                <svg version="1.1" class="loader" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                <path fill="#fdbf48" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                    <animateTransform attributeType="xml"
+                    attributeName="transform"
+                    type="rotate"
+                    from="0 25 25"
+                    to="360 25 25"
+                    dur="0.6s"
+                    repeatCount="indefinite"/>
+                    </path>
+                </svg>
             </div>
 
         </div>

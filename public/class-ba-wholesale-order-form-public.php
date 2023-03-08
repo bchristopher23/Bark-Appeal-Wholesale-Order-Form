@@ -105,7 +105,7 @@ class Ba_Wholesale_Order_Form_Public {
 		// In other cases, output buffering may not required.
 		ob_start();
 
-		// Load template from PLUGIN_NAME_BASE_DIR/templates/content-header.php
+		// Load template
 		$templates->get_template_part( 'content', 'order-form' );
 
 		// Return content ftom the file
@@ -113,6 +113,11 @@ class Ba_Wholesale_Order_Form_Public {
 
 	}
 
+	/**
+	 * Insert the product modal HTML
+	 *
+	 * @since    1.0.0
+	 */
 	function ba_insert_modal() {
 
 		$templates = new Custom_Template_Loader;
@@ -121,6 +126,11 @@ class Ba_Wholesale_Order_Form_Public {
 
 	}
 
+	/**
+	 * Add products to cart via AJAX
+	 *
+	 * @since    1.0.0
+	 */
 	function ba_add_to_cart() {
 
 		$data = isset( $_POST['data'] ) ? json_decode( str_replace('\\', '', $_POST['data'] ), true ) : '';
@@ -144,6 +154,106 @@ class Ba_Wholesale_Order_Form_Public {
 		}
 
         wp_send_json( json_encode(array('success' => true, 'count' => WC()->cart->get_cart_contents_count())) );
+
+	}
+
+	/**
+	 * Fetch and render products by category via AJAX
+	 *
+	 * @since    1.0.0
+	 */
+	function ba_get_products_by_category() {
+
+		$data = isset( $_POST['data'] ) ? json_decode( str_replace('\\', '', $_POST['data'] ), true ) : '';
+		$category_id = intval( $data['category_id'] );
+		$category_name = sanitize_text_field( $data['category_name'] );
+		$html = '';
+
+		// Get Products by category args
+		$product_args = array(
+			'post_type'      => 'product',
+			'posts_per_page' => -1,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'product_cat',
+					'field' => 'term_id',
+					'terms' => $category_id,
+					'operator' => 'IN'
+				),
+			),
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+				'key'=>'ba_order',
+				'compare' => 'EXISTS'         
+				),
+				array(
+					'key'=>'ba_order',
+					'compare' => 'NOT EXISTS'         
+				)
+			),
+			'order' => 'ASC',
+			'orderby' => 'meta_value_num',
+		);
+
+		if ( $category_name != 'Starter Packs' ) {
+
+			error_log('not starter packs');
+			
+			// Category products
+			$products = get_posts( $product_args );
+
+			ob_start();
+
+			$templates = new Custom_Template_Loader;
+
+			$templates
+			->set_template_data( array('products' => $products) )
+			->get_template_part( 'content', 'product-loop' );
+
+			// Return content ftom the file
+			$html = ob_get_contents();
+			ob_end_clean();
+
+		} else {
+
+			error_log('is starter packs');
+		
+			// If category is starter packs, get sub categories and then products by sub category
+			$cat_args = array(
+				'taxonomy'     => 'product_cat',
+				'orderby'      => 'ID',
+				'hierarchical' => 1,
+				'hide_empty'   => true,
+				'parent' => $category_id
+			);
+
+			$sub_cats = get_categories( $cat_args );
+
+			foreach( $sub_cats as $cat ) {
+
+				$html .= '<h3 class="ba-sub-cat-heading">' . $cat->name . '</h3>';
+
+				$product_args['product_cat'] = $cat->slug;
+				$products = get_posts( $product_args );
+
+				ob_start();
+
+				$templates = new Custom_Template_Loader;
+
+				$templates
+				->set_template_data( array('products' => $products) )
+				->get_template_part( 'content', 'product-loop' );
+
+				$html .= ob_get_contents();
+
+				ob_end_clean();
+
+			}
+
+		}
+
+		wp_send_json( json_encode( array('html' => $html) ) );
 
 	}
 

@@ -9,8 +9,47 @@
 			$(this).parent().toggleClass('active');
 			$(this).siblings('.ba-category-row-content').slideToggle();
 
+			const catID = $(this).parent().data('id'),
+				  catName = $(this).parent().data('name');
+			fetchProducts(catID, catName);
+
 		});
 
+		function fetchProducts(catID, catName) {
+
+			let catRow = $('.ba-category-row[data-id="' + catID + '"]'),
+				catRowContent = catRow.find('.ba-category-row-content'),
+				loader = catRowContent.find('svg.loader');
+
+			// Don't fetch products if already fetched previously
+			if ( catRow.hasClass('fetched') ) {
+				return;
+			}
+
+			loader.show();
+
+			$.post(ajax_params.ajax_url, {
+				action: 'get_products_html_by_category',
+				data: JSON.stringify({ category_id: catID, category_name: catName })
+			}, function(data, status){
+				  
+				// Success
+				let html = JSON.parse(data).html;
+
+				catRow.addClass('fetched');
+				loader.hide();
+				catRowContent.append(html);
+
+			}).fail(function(response) {
+
+				// Failure
+				loader.hide();
+				catRowContent.append('<p class="ba-product-error">Error Fetching products. Please try again or contact us for help.</p>')
+				console.log(response);
+
+			});
+
+		}
 
 		$('.ba-product-modal').on('keyup', '.qty-wrap input[type="text"]', function() {
 
@@ -34,7 +73,7 @@
 		});
 
 
-		$('.ba-product-row button').click(function() {
+		$('.ba-categories-container').on('click', '.ba-product-row button', function() {
 			
 			let parent = $(this).parent(),
 				title = parent.find('.product-title').text(),

@@ -16,6 +16,7 @@
 }
 
 .ba-category-row-heading h2 {
+    margin-right: 1em;
     font-size: 1.65em !important;
     transition: color .2s ease;
 }
@@ -33,6 +34,7 @@
 
 .ba-category-row-icon {
     margin-left: auto;
+    flex-shrink: 0;
     height: 25px;
     width: 25px;
     display: flex;
@@ -56,6 +58,16 @@
 
 .ba-category-row.active .ba-category-row-icon .awb-icon-minus {
     display: block;
+}
+
+.ba-category-row svg.loader {
+    width: 100%;
+    margin: 2em auto;
+}
+
+.ba-category-row .ba-product-error {
+    color: red;
+    font-weight: bold;
 }
 
 .ba-category-row-content {
@@ -253,4 +265,62 @@
 
 .ba-product-modal.simple .ba-size-table-headings p:first-of-type {
     display: none;
+}
+
+/** Responsive **/
+@media(max-width: 999px) {
+    
+    .ba-product-modal {
+        width: 90%;
+    }
+
+}
+
+@media(max-width: 799px) {
+
+    .ba-product-headings p:last-of-type {
+        display: none;
+    }
+
+    .ba-product-row {
+        display: block;
+        padding-top: 1em;
+    }
+
+    .ba-product-row .product-title,
+    .ba-product-row .product-price,
+    .ba-product-row button {
+        margin-bottom: 1em !important;
+    }
+
+    .ba-product-row .product-title {
+        width: 100%;
+    }
+
+    .ba-category-row-content {
+        padding: 10px 20px;
+    }
+
+}
+
+@media(max-width: 550px) {
+
+    .ba-modal-footer {
+        flex-wrap: wrap;
+    }
+
+    .ba-modal-footer button {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .ba-success-buttons a {
+        display: block;
+        text-align: center;
+    }
+
+    .ba-success-buttons a:first-of-type {
+        margin-bottom: 1em;
+    }
+
 }
