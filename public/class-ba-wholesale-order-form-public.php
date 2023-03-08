@@ -197,8 +197,6 @@ class Ba_Wholesale_Order_Form_Public {
 		);
 
 		if ( $category_name != 'Starter Packs' ) {
-
-			error_log('not starter packs');
 			
 			// Category products
 			$products = get_posts( $product_args );
@@ -216,8 +214,6 @@ class Ba_Wholesale_Order_Form_Public {
 			ob_end_clean();
 
 		} else {
-
-			error_log('is starter packs');
 		
 			// If category is starter packs, get sub categories and then products by sub category
 			$cat_args = array(

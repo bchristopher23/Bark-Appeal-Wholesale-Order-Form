@@ -26,6 +26,7 @@
 				return;
 			}
 
+			catRow.addClass('fetched');
 			loader.show();
 
 			$.post(ajax_params.ajax_url, {
@@ -35,8 +36,6 @@
 				  
 				// Success
 				let html = JSON.parse(data).html;
-
-				catRow.addClass('fetched');
 				loader.hide();
 				catRowContent.append(html);
 
@@ -44,7 +43,7 @@
 
 				// Failure
 				loader.hide();
-				catRowContent.append('<p class="ba-product-error">Error Fetching products. Please try again or contact us for help.</p>')
+				catRowContent.append('<p class="ba-product-error">Error Fetching products. Please reload the page and try again or contact us for help.</p>')
 				console.log(response);
 
 			});
