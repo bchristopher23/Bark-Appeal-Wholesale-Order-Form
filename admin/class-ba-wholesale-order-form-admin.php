@@ -73,7 +73,7 @@ class Ba_Wholesale_Order_Form_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ba-wholesale-order-form-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ba-wholesale-order-form-admin.css', array(), 1.1, 'all' );
 
 	}
 
@@ -97,7 +97,7 @@ class Ba_Wholesale_Order_Form_Admin {
 		 */
 
 		wp_enqueue_script( 'sortable', plugin_dir_url( __FILE__ ) . 'js/sortable.min.js', array(), $this->version, false );
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ba-wholesale-order-form-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ba-wholesale-order-form-admin.js', array( 'jquery' ), 1.1, false );
 		wp_localize_script( $this->plugin_name, 'ajax_params', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
 	}
